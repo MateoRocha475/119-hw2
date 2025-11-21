@@ -115,11 +115,10 @@ def general_reduce(rdd, f):
     output: an RDD with values of type (k2, v2),
         and just one single value per key
     """
-    # TODO
-    raise NotImplementedError
+    return rdd.reduceByKey(lambda x, y:f(x, y))
 
 # Remove skip when implemented!
-@pytest.mark.skip
+# @pytest.mark.skip
 def test_general_reduce():
     rdd = sc.parallelize(["cat", "dog", "cow", "zebra"])
 
