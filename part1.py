@@ -172,16 +172,16 @@ set of integers between 1 and 1 million (inclusive).
 def load_input():
     # Return a parallelized RDD with the integers between 1 and 1,000,000
     # This will be referred to in the following questions.
-    # TODO
-    raise NotImplementedError
+    input = list(range(1000000))
+
+    return sc.parallelize(input)
 
 def q4(rdd):
     # Input: the RDD from load_input
     # Output: the length of the dataset.
     # You may use general_map or general_reduce here if you like (but you don't have to) to get the total count.
-    # TODO
-    raise NotImplementedError
-
+    rdd = load_input()
+    return len(rdd)
 """
 Now use the general_map and general_reduce functions to answer the following questions.
 
