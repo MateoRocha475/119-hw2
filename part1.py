@@ -173,7 +173,6 @@ def load_input():
     # Return a parallelized RDD with the integers between 1 and 1,000,000
     # This will be referred to in the following questions.
     input = list(range(1000000))
-
     return sc.parallelize(input)
 
 def q4(rdd):
@@ -192,8 +191,9 @@ For Q5-Q7, your answers should use general_map and general_reduce as much as pos
 def q5(rdd):
     # Input: the RDD from Q4
     # Output: the average value
-    # TODO
-    raise NotImplementedError
+    rddx = rdd.map(lambda x: ("avg", (x, 1)))
+    gen_reduce = general_reduce(rddx)
+    
 
 """
 6. Among the numbers from 1 to 1 million, when written out,
