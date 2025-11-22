@@ -180,8 +180,7 @@ def q4(rdd):
     # Input: the RDD from load_input
     # Output: the length of the dataset.
     # You may use general_map or general_reduce here if you like (but you don't have to) to get the total count.
-    rdd = load_input()
-    return len(rdd)
+    return rdd.count()
 """
 Now use the general_map and general_reduce functions to answer the following questions.
 
