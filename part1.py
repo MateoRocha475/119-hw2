@@ -152,7 +152,9 @@ def q2():
 and keys for Reduce be different might be useful.
 
 === ANSWER Q3 BELOW ===
-
+A scenario where having separate keys for Map and reduce could be when the key isn't relevant to the output you want. For example if we have a Map key to denote the 
+where the objects are, and in reduce we want to count the number of objects and group them together. Thus the overall output does not depend on the original key
+associated witht the objects.
 === END OF Q3 ANSWER ===
 """
 
