@@ -230,7 +230,7 @@ def q6(rdd):
     get_count_of_digits = general_reduce(split_str_as_rdd, add_count)
     get_digit_frequency = get_count_of_digits.collect()
     most_common = max(get_digit_frequency, key=lambda x: x[1])
-    least_common = max(get_digit_frequency, key=lambda x: x[1])
+    least_common = min(get_digit_frequency, key=lambda x: x[1])
     max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
     return max_min_tuple
 
@@ -329,7 +329,7 @@ def q7(rdd):
         return " ".join(final_result)
     
     map_to_str = rdd.map(lambda x: ("eng words", convert_to_eng(x).replace(" ", "")))
-    
+
     def split_str(key, num_str):
         return [(char, 1) for char in num_str]
     
@@ -341,7 +341,7 @@ def q7(rdd):
     get_count_of_chars = general_reduce(split_str_as_rdd, add_count)
     get_char_frequency = get_count_of_chars.collect()
     most_common = max(get_char_frequency, key=lambda x: x[1])
-    least_common = max(get_char_frequency, key=lambda x: x[1])
+    least_common = min(get_char_frequency, key=lambda x: x[1])
     max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
     return max_min_tuple
     
