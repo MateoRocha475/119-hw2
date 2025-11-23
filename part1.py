@@ -192,8 +192,10 @@ def q5(rdd):
     # Input: the RDD from Q4
     # Output: the average value
     rddx = rdd.map(lambda x: ("avg", (x, 1)))
+
     def combine_val_count(m, n):
         return (m[0] + n[0], m[1] + n[1])
+    
     gen_reduce = general_reduce(rddx, combine_val_count)
     added_sum, added_count = gen_reduce.collect()[0][1]
     average_val = added_sum / added_count
@@ -216,12 +218,15 @@ def q6(rdd):
     # Input: the RDD from Q4
     # Output: a tuple (most common digit, most common frequency, least common digit, least common frequency)
     map_to_str = rdd.map(lambda x: ("digits", str(x)))
+
     def split_str(key, num_str):
         return [(digit, 1) for digit in num_str]
 
     split_str_as_rdd = general_map(map_to_str, split_str)
+
     def add_count(count1, count2):
         return count1 + count2
+    
     get_count_of_digits = general_reduce(split_str_as_rdd, add_count)
     get_digit_frequency = get_count_of_digits.collect()
     most_common = max(get_digit_frequency, key=lambda x: x[1])
@@ -270,8 +275,76 @@ Notes:
 def q7(rdd):
     # Input: the RDD from Q4
     # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    # TODO
-    raise NotImplementedError
+    def convert_to_eng(numbers):
+        final_result = []
+
+        if numbers == 0:
+            return "zero"
+
+        if numbers == 1000000:
+            return "one million"
+
+        ones_place_and_teens = ["zero", "one", "two", "three", "four",
+                                "five", "six", "seven", "eight", "nine",
+                                "ten", "eleven", "twelve", "thirteen", "fourteen",
+                                "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+        tens_place = ["", "", "twenty", "thirty", "fourty",
+                      "fifty", "sixty", "seventy", "eighty", "ninety"]
+        
+        def below_thousands(num):
+            conversion_list1 = []
+
+            hundred = num // 100
+            remainder = num % 100
+
+            if hundred > 0:
+                conversion_list1.append(ones_place_and_teens[hundred])
+                conversion_list1.append("hundred")
+                if remainder > 0:
+                    conversion_list1.append("and")
+
+            if remainder > 0:
+                if remainder < 20:
+                    conversion_list1.append(ones_place_and_teens[remainder])
+                else:
+                    tens = remainder // 10
+                    ones_remainder = remainder % 10
+                    conversion_list1.append(tens_place[tens])
+                    if ones_remainder > 0:
+                        conversion_list1.append(ones_place_and_teens[ones_remainder])
+
+            return " ".join(conversion_list1)
+
+
+        thousands_place = numbers // 1000
+        remaining_numbers = numbers % 1000
+
+        if thousands_place > 0:
+            final_result.append(below_thousands(thousands_place))
+            final_result.append("thousand")
+
+        if remaining_numbers > 0:
+            final_result.append(below_thousands(remaining_numbers))
+
+        return " ".join(final_result)
+    
+    map_to_str = rdd.map(lambda x: ("eng words", convert_to_eng(x).replace(" ", "")))
+    
+    def split_str(key, num_str):
+        return [(char, 1) for char in num_str]
+    
+    split_str_as_rdd = general_map(map_to_str, split_str)
+
+    def add_count(count1, count2):
+        return count1 + count2
+    
+    get_count_of_chars = general_reduce(split_str_as_rdd, add_count)
+    get_char_frequency = get_count_of_chars.collect()
+    most_common = max(get_char_frequency, key=lambda x: x[1])
+    least_common = max(get_char_frequency, key=lambda x: x[1])
+    max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
+    return max_min_tuple
+    
 
 """
 8. Does the answer change if we have the numbers from 1 to 100,000,000?
