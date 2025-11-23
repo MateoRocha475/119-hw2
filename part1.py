@@ -192,8 +192,12 @@ def q5(rdd):
     # Input: the RDD from Q4
     # Output: the average value
     rddx = rdd.map(lambda x: ("avg", (x, 1)))
-    gen_reduce = general_reduce(rddx)
-    
+    def combine_val_count(m, n):
+        return (m[0] + n[0], m[1] + n[1])
+    gen_reduce = general_reduce(rddx, combine_val_count)
+    added_sum, added_count = gen_reduce.collect()[0][1]
+    average_val = added_sum / added_count
+    return average_val
 
 """
 6. Among the numbers from 1 to 1 million, when written out,
@@ -211,8 +215,19 @@ Your answer should use the general_map and general_reduce functions as much as p
 def q6(rdd):
     # Input: the RDD from Q4
     # Output: a tuple (most common digit, most common frequency, least common digit, least common frequency)
-    # TODO
-    raise NotImplementedError
+    map_to_str = rdd.map(lambda x: ("digits", str(x)))
+    def split_str(key, num_str):
+        return [(digit, 1) for digit in num_str]
+
+    split_str_as_rdd = general_map(map_to_str, split_str)
+    def add_count(count1, count2):
+        return count1 + count2
+    get_count_of_digits = general_reduce(split_str_as_rdd, add_count)
+    get_digit_frequency = get_count_of_digits.collect()
+    most_common = max(get_digit_frequency, key=lambda x: x[1])
+    least_common = max(get_digit_frequency, key=lambda x: x[1])
+    max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
+    return max_min_tuple
 
 """
 7. Among the numbers from 1 to 1 million, written out in English, which letter is most common?
