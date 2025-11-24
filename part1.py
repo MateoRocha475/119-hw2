@@ -561,7 +561,7 @@ it possible to implement the example, and "False" if it was not.
 """
 
 def q20():
-    rdd = sc.parallelize(range(1000), 13)
+    rdd = sc.parallelize(range(1000), 1)
     get_key = rdd.map(lambda x: ("", x))
     get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
     def index_value_pair(a, b):
