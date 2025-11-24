@@ -371,7 +371,7 @@ Notes:
 """
 
 def load_input_bigger():
-    return sc.range(100000000, numSlices=200)
+    return sc.range(10000000, numSlices=200)
 
 def q8_a():
     # version of Q6
