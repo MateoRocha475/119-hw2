@@ -269,10 +269,7 @@ Notes:
 
 # *** Define helper function(s) here ***
 
-def q7(rdd):
-    # Input: the RDD from Q4
-    # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    def convert_to_eng(number):
+def convert_to_eng(number):
         final_result = []
 
         if number == 0:
@@ -330,7 +327,10 @@ def q7(rdd):
             final_result.append(below_thousands(remaining_numbers))
 
         return " ".join(final_result)
-    
+
+def q7(rdd):
+    # Input: the RDD from Q4
+    # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
     map_to_str = rdd.map(lambda x: ("eng words", convert_to_eng(x).replace(" ", "")))
 
     def split_str(key, num_str):
@@ -338,10 +338,8 @@ def q7(rdd):
     
     split_str_as_rdd = general_map(map_to_str, split_str)
 
-    def add_count(count1, count2):
-        return count1 + count2
     
-    get_count_of_chars = general_reduce(split_str_as_rdd, add_count)
+    get_count_of_chars = general_reduce(split_str_as_rdd, lambda count1, count2: count1 + count2)
     get_char_frequency = get_count_of_chars.collect()
     most_common = max(get_char_frequency, key=lambda x: x[1])
     least_common = min(get_char_frequency, key=lambda x: x[1])
