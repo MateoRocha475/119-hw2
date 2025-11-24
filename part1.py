@@ -465,6 +465,7 @@ Important: Please create an example where the output of the reduce stage is a se
 def q14(rdd):
     # Input: the RDD from Q4
     # Output: the result of the pipeline, a set of (key, value) pairs
+    rdd = rdd.repartition(10)
     get_key = rdd.map(lambda x: ("", x))
     get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
     def subtraction(a, b):
