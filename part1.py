@@ -433,7 +433,9 @@ Does this depend on anything specific about how
 we chose to define general_reduce?
 
 === ANSWER Q12 BELOW ===
-The 
+The output ends up being a completely empty list when making the general map have no value assoicated with the key. This has to do with how we chose to define
+general_reduce since general reduce has a function that applies to (v2, v2) and outputs a single v2. Thus since there are no values to work with, the whole pipeline
+produces nothing.
 === END OF Q12 ANSWER ===
 
 13. Lastly, we will explore a second edge case, where the reduce stage can
@@ -446,7 +448,10 @@ Why do you imagine it could be the case that the output of the reduce stage
 is different depending on the order of the input?
 
 === ANSWER Q13 BELOW ===
-
+The general_reduce function uses reducebykey, which means that if two things have the same key, they may have the function applied to them in a random order. For example
+if i have three things with the same key (k1, v1) (k1, v2) and (k1, v3). If the function on the tuples from map is subtraction or division the values then 
+reducebykey can mix up the order where if we want (v1 - v2) then - v3, we could have (v3 - v1) - v2. So if v1 = 5, v2 = 4, and v3 = 2 we could have 
+either -1 or -7 for the index.
 === END OF Q13 ANSWER ===
 
 14.
@@ -460,8 +465,13 @@ Important: Please create an example where the output of the reduce stage is a se
 def q14(rdd):
     # Input: the RDD from Q4
     # Output: the result of the pipeline, a set of (key, value) pairs
-    # TODO
-    raise NotImplementedError
+    get_key = rdd.map(lambda x: ("", x))
+    get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
+    def subtraction(a, b):
+        return a - b
+    get_reduce = general_reduce(get_map, subtraction)
+    return get_reduce.collect()
+    
 
 """
 15.
