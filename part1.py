@@ -424,7 +424,7 @@ def q11(rdd):
     # Output: the result of the pipeline, a set of (key, value) pairs
     get_map = general_map(rdd, lambda k1, v1: [])
     get_reduce = general_reduce(get_map, lambda v1, v2: v1)
-    return get_reduce.collect()
+    return set(get_reduce.collect())
 
 """
 12. What happened? Explain below.
