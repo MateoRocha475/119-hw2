@@ -371,7 +371,7 @@ Notes:
 """
 
 def load_input_bigger():
-    input = list(range(1000000000))
+    input = list(range(100000000))
     return sc.parallelize(input)
 
 def q8_a():
