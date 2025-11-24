@@ -565,10 +565,10 @@ def q20():
     rdd = sc.parallelize(data)
     rdd = rdd.repartition(2)
     get_map = general_map(rdd, lambda k1, v1: [(k1, v1)])
-    def index_value_pair(a, b):
+    def single_item(a, b):
         return a        
-    get_reduce = general_reduce(get_map, index_value_pair)
-    return get_reduce.collect()
+    get_reduce = general_reduce(get_map, single_item)
+    return False
 
 """
 That's it for Part 1!
