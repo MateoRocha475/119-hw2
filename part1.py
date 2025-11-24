@@ -371,8 +371,7 @@ Notes:
 """
 
 def load_input_bigger():
-    input = list(range(100000000))
-    return sc.parallelize(input)
+    return sc.range(100000000, numSlices=200)
 
 def q8_a():
     # version of Q6
