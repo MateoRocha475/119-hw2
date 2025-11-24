@@ -482,7 +482,8 @@ Does it exhibit nondeterministic behavior on different runs?
 including partitioning.
 
 === ANSWER Q15 BELOW ===
-
+At first I tried the pipeline without partition and it was not exhibiting nondeterministic behavior. After implementing repartitioning,
+the pipeline gave me a different number than originally, but still remained the same over multiple runs.
 === END OF Q15 ANSWER ===
 
 16.
@@ -494,18 +495,33 @@ Write three functions, a, b, and c that use different levels of parallelism.
 
 def q16_a():
     # For this one, create the RDD yourself. Choose the number of partitions.
-    # TODO
-    raise NotImplementedError
+    rdd = sc.parallelize(range(1: 1000), 2)
+    get_key = rdd.map(lambda x: ("", x))
+    get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
+    def subtraction(a, b):
+        return a - b
+    get_reduce = general_reduce(get_map, subtraction)
+    return get_reduce.collect()
 
 def q16_b():
     # For this one, create the RDD yourself. Choose the number of partitions.
-    # TODO
-    raise NotImplementedError
+    rdd = sc.parallelize(range(1: 1000), 8)
+    get_key = rdd.map(lambda x: ("", x))
+    get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
+    def subtraction(a, b):
+        return a - b
+    get_reduce = general_reduce(get_map, subtraction)
+    return get_reduce.collect()
 
 def q16_c():
     # For this one, create the RDD yourself. Choose the number of partitions.
-    # TODO
-    raise NotImplementedError
+    rdd = sc.parallelize(range(1: 1000), 13)
+    get_key = rdd.map(lambda x: ("", x))
+    get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
+    def subtraction(a, b):
+        return a - b
+    get_reduce = general_reduce(get_map, subtraction)
+    return get_reduce.collect()
 
 """
 Discussion questions
