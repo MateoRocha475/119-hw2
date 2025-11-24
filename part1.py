@@ -563,6 +563,7 @@ it possible to implement the example, and "False" if it was not.
 def q20():
     data = [ (0 , "A") , (0, "B"), (0, "C"), (1, "D"), (1, "D"), (1, "D")]
     rdd = sc.parallelize(data)
+    rdd = rdd.repartition(2)
     get_map = general_map(rdd, lambda k1, v1: [(k1, v1)])
     def index_value_pair(a, b):
         return a        
