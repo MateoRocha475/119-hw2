@@ -282,7 +282,7 @@ def convert_to_eng(number):
                                 "five", "six", "seven", "eight", "nine",
                                 "ten", "eleven", "twelve", "thirteen", "fourteen",
                                 "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
-        tens_place = ["", "", "twenty", "thirty", "fourty",
+        tens_place = ["", "", "twenty", "thirty", "forty",
                       "fifty", "sixty", "seventy", "eighty", "ninety"]
         
         def below_thousands(num):
@@ -331,12 +331,13 @@ def convert_to_eng(number):
 def q7(rdd):
     # Input: the RDD from Q4
     # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    map_to_str = rdd.map(lambda x: ("eng words", convert_to_eng(x).replace(" ", "")))
+    map_to_str = rdd.map(lambda x: ("chars", convert_to_eng(x).replace(" ", "")))
 
     def split_str(key, num_str):
         return [(char, 1) for char in num_str]
     
     split_str_as_rdd = general_map(map_to_str, split_str)
+    
     def get_count(count1, count2):
         return count1 + count2
     
