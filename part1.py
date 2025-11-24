@@ -422,7 +422,8 @@ your answer should return a Python set of (key, value) pairs after the reduce st
 def q11(rdd):
     # Input: the RDD from Q4
     # Output: the result of the pipeline, a set of (key, value) pairs
-    get_map = general_map(rdd, lambda k1, v1: [])
+    get_key = rdd.map(lambda x: ("", x))
+    get_map = general_map(get_key, lambda k1, v1: [])
     get_reduce = general_reduce(get_map, lambda v1, v2: v1)
     return set(get_reduce.collect())
 
