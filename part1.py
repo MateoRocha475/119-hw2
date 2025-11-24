@@ -169,11 +169,21 @@ set of integers between 1 and 1 million (inclusive).
 4. First, we need a function that loads the input.
 """
 
-def load_input():
+def load_input(N = None, P = None):
     # Return a parallelized RDD with the integers between 1 and 1,000,000
     # This will be referred to in the following questions.
-    input = list(range(1000000))
-    return sc.parallelize(input)
+    original_N = 1000000
+    original_P = None
+
+    if N is None:
+        N = original_N
+    
+    input = list(range(N))
+
+    if P is None:
+        return sc.parallelize(input, original_P)
+    else:
+        return sc.parallelize(input, P)
 
 def q4(rdd):
     # Input: the RDD from load_input
