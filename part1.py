@@ -391,23 +391,23 @@ def load_input_bigger(N = None, P = None):
 
     if P is None:
         P = original_P
-        
+
     return sc.range(N, P)
 
-def q8_a():
+def q8_a(N = None, P = None):
     # version of Q6
     # It should call into q6() with the new RDD!
     # Don't re-implemented the q6 logic.
     # Output: a tuple (most common digit, most common frequency, least common digit, least common frequency)
-    rdd = load_input_bigger()
+    rdd = load_input_bigger(N=N, P=P)
     return q6(rdd)
 
-def q8_b():
+def q8_b(N = None, P = None):
     # version of Q7
     # It should call into q7() with the new RDD!
     # Don't re-implemented the q6 logic.
     # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    rdd = load_input_bigger()
+    rdd = load_input_bigger(N=N, P=P)
     return q7(rdd)
 
 """
