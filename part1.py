@@ -561,13 +561,11 @@ it possible to implement the example, and "False" if it was not.
 """
 
 def q20():
-    rdd = sc.parallelize(range(1000), 13)
-    get_key = rdd.map(lambda x: ("", x))
-    get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
+    data = [ (0 , "A") , (0, "B"), (0, "C"), (1, "D"), (1, "D"), (1, "D")]
+    rdd = sc.parallelize(data)
+    get_map = general_map(rdd, lambda k1, v1: [(k1, v1)])
     def index_value_pair(a, b):
-        a = b
-        return a
-        
+        return a        
     get_reduce = general_reduce(get_map, index_value_pair)
     return get_reduce.collect()
 
