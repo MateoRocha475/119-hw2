@@ -425,7 +425,7 @@ def q11(rdd):
     get_key = rdd.map(lambda x: ("", x))
     get_map = general_map(get_key, lambda k1, v1: [])
     get_reduce = general_reduce(get_map, lambda v1, v2: v1)
-    return set(get_reduce.collect())
+    return get_reduce.collect()
 
 """
 12. What happened? Explain below.
@@ -433,7 +433,7 @@ Does this depend on anything specific about how
 we chose to define general_reduce?
 
 === ANSWER Q12 BELOW ===
-
+The 
 === END OF Q12 ANSWER ===
 
 13. Lastly, we will explore a second edge case, where the reduce stage can
