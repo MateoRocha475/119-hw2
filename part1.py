@@ -529,14 +529,14 @@ Discussion questions
 17. Was the answer different for the different levels of parallelism?
 
 === ANSWER Q17 BELOW ===
-
+Yes, when using the three pipelines, I get 249000 for 2 partitions, 47700 for 8 partitions, and 481812 for 13 partitions.
 === END OF Q17 ANSWER ===
 
 18. Do you think this would be a serious problem if this occured on a real-world pipeline?
 Explain why or why not.
 
 === ANSWER Q18 BELOW ===
-
+This would be a real world problem if you are working across multiple computers in parallel with a problem that requires subtraction or division reduction. 
 === END OF Q18 ANSWER ===
 
 ===== Q19-20: Further reading =====
@@ -549,7 +549,8 @@ https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/icsecomp14se
 Take a look at the paper. What is one sentence you found interesting?
 
 === ANSWER Q19 BELOW ===
-
+"Surprisingly, we find that 58% of the reducers in the sample set are non-commutative." I found this interesting since they go on further to say that these
+programs are well tested and reused over many applications. Yet, over half of them ca run into nondeterminism issues.
 === END OF Q19 ANSWER ===
 
 20.
@@ -560,8 +561,15 @@ it possible to implement the example, and "False" if it was not.
 """
 
 def q20():
-    # TODO
-    raise NotImplementedError
+    rdd = sc.parallelize(range(1000), 13)
+    get_key = rdd.map(lambda x: ("", x))
+    get_map = general_map(get_key, lambda k1, v1: [(0, v1)])
+    def index_value_pair(a, b):
+        b = a
+        return b
+        
+    get_reduce = general_reduce(get_map, index_value_pair)
+    return get_reduce.collect()
 
 """
 That's it for Part 1!
