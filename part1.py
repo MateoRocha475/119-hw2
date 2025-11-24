@@ -275,129 +275,6 @@ Notes:
 def q7(rdd):
     # Input: the RDD from Q4
     # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    def convert_to_eng(numbers):
-        final_result = []
-
-        if numbers == 0:
-            return "zero"
-
-        if numbers == 1000000:
-            return "one million"
-
-        ones_place_and_teens = ["zero", "one", "two", "three", "four",
-                                "five", "six", "seven", "eight", "nine",
-                                "ten", "eleven", "twelve", "thirteen", "fourteen",
-                                "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
-        tens_place = ["", "", "twenty", "thirty", "fourty",
-                      "fifty", "sixty", "seventy", "eighty", "ninety"]
-        
-        def below_thousands(num):
-            conversion_list1 = []
-
-            hundred = num // 100
-            remainder = num % 100
-
-            if hundred > 0:
-                conversion_list1.append(ones_place_and_teens[hundred])
-                conversion_list1.append("hundred")
-                if remainder > 0:
-                    conversion_list1.append("and")
-
-            if remainder > 0:
-                if remainder < 20:
-                    conversion_list1.append(ones_place_and_teens[remainder])
-                else:
-                    tens = remainder // 10
-                    ones_remainder = remainder % 10
-                    conversion_list1.append(tens_place[tens])
-                    if ones_remainder > 0:
-                        conversion_list1.append(ones_place_and_teens[ones_remainder])
-
-            return " ".join(conversion_list1)
-
-
-        thousands_place = numbers // 1000
-        remaining_numbers = numbers % 1000
-
-        if thousands_place > 0:
-            final_result.append(below_thousands(thousands_place))
-            final_result.append("thousand")
-
-        if remaining_numbers > 0:
-            final_result.append(below_thousands(remaining_numbers))
-
-        return " ".join(final_result)
-    
-    map_to_str = rdd.map(lambda x: ("eng words", convert_to_eng(x).replace(" ", "")))
-
-    def split_str(key, num_str):
-        return [(char, 1) for char in num_str]
-    
-    split_str_as_rdd = general_map(map_to_str, split_str)
-
-    def add_count(count1, count2):
-        return count1 + count2
-    
-    get_count_of_chars = general_reduce(split_str_as_rdd, add_count)
-    get_char_frequency = get_count_of_chars.collect()
-    most_common = max(get_char_frequency, key=lambda x: x[1])
-    least_common = min(get_char_frequency, key=lambda x: x[1])
-    max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
-    return max_min_tuple
-    
-
-"""
-8. Does the answer change if we have the numbers from 1 to 100,000,000?
-
-Make a version of both pipelines from Q6 and Q7 for this case.
-You will need a new load_input function.
-
-Notes:
-- The functions q8_a and q8_b don't have input parameters; they should call
-  load_input_bigger directly.
-- Please ensure that each of q8a and q8b runs in at most 3 minutes.
-- If you are unable to run up to 100 million on your machine within the time
-  limit, please change the input to 10 million instead of 100 million.
-  If it is still taking too long even for that,
-  you may need to change the number of partitions.
-  For example, one student found that setting number of partitions to 100
-  helped speed it up.
-"""
-
-def load_input_bigger():
-    input = list(range(1000000000))
-    return sc.parallelize(input)
-
-def q8_a():
-    # version of Q6
-    # It should call into q6() with the new RDD!
-    # Don't re-implemented the q6 logic.
-    # Output: a tuple (most common digit, most common frequency, least common digit, least common frequency)
-    rdd = load_input_bigger()
-    map_to_str = rdd.map(lambda x: ("digits", str(x)))
-
-    def split_str(key, num_str):
-        return [(digit, 1) for digit in num_str]
-
-    split_str_as_rdd = general_map(map_to_str, split_str)
-
-    def add_count(count1, count2):
-        return count1 + count2
-    
-    get_count_of_digits = general_reduce(split_str_as_rdd, add_count)
-    get_digit_frequency = get_count_of_digits.collect()
-    most_common = max(get_digit_frequency, key=lambda x: x[1])
-    least_common = min(get_digit_frequency, key=lambda x: x[1])
-    max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
-    return max_min_tuple
-
-def q8_b():
-    # version of Q7
-    # It should call into q7() with the new RDD!
-    # Don't re-implemented the q6 logic.
-    # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    rdd = load_input_bigger()
-
     def convert_to_eng(number):
         final_result = []
 
@@ -473,6 +350,45 @@ def q8_b():
     least_common = min(get_char_frequency, key=lambda x: x[1])
     max_min_tuple = (most_common[0], most_common[1], least_common[0], least_common[1])
     return max_min_tuple
+    
+
+"""
+8. Does the answer change if we have the numbers from 1 to 100,000,000?
+
+Make a version of both pipelines from Q6 and Q7 for this case.
+You will need a new load_input function.
+
+Notes:
+- The functions q8_a and q8_b don't have input parameters; they should call
+  load_input_bigger directly.
+- Please ensure that each of q8a and q8b runs in at most 3 minutes.
+- If you are unable to run up to 100 million on your machine within the time
+  limit, please change the input to 10 million instead of 100 million.
+  If it is still taking too long even for that,
+  you may need to change the number of partitions.
+  For example, one student found that setting number of partitions to 100
+  helped speed it up.
+"""
+
+def load_input_bigger():
+    input = list(range(1000000000))
+    return sc.parallelize(input)
+
+def q8_a():
+    # version of Q6
+    # It should call into q6() with the new RDD!
+    # Don't re-implemented the q6 logic.
+    # Output: a tuple (most common digit, most common frequency, least common digit, least common frequency)
+    rdd = load_input_bigger()
+    return q6(rdd)
+
+def q8_b():
+    # version of Q7
+    # It should call into q7() with the new RDD!
+    # Don't re-implemented the q6 logic.
+    # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
+    rdd = load_input_bigger()
+    return q7(rdd)
 
 """
 Discussion questions
