@@ -277,6 +277,9 @@ def convert_to_eng(number):
 
         if number == 1000000:
             return "one million"
+        
+        if number == 10000000:
+            return "ten million"
 
         ones_place_and_teens = ["zero", "one", "two", "three", "four",
                                 "five", "six", "seven", "eight", "nine",
@@ -310,30 +313,32 @@ def convert_to_eng(number):
             return " ".join(conversion_list1)
         
         millions_place = number // 1000000
-        number = number % 1000000
-
-        thousands_place = number // 1000
-        remaining_numbers = number % 1000
+        remainder = number % 1000000
 
         if millions_place > 0:
             final_result.append(below_thousands(millions_place))
             final_result.append("million")
 
+        thousands_place = number // 1000
+        remainder = number % 1000
+
+
         if thousands_place > 0:
             final_result.append(below_thousands(thousands_place))
             final_result.append("thousand")
 
-        if remaining_numbers > 0:
-            final_result.append(below_thousands(remaining_numbers))
+        if remainder > 0:
+            final_result.append(below_thousands(remainder))
 
         return " ".join(final_result)
 
 def q7(rdd):
     # Input: the RDD from Q4
     # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
-    map_to_str = rdd.map(lambda x: ("chars", convert_to_eng(x).replace(" ", "")))
+    map_to_str = rdd.map(lambda x: ("", x))
 
-    def split_str(key, num_str):
+    def split_str(key, num):
+        num_str = convert_to_eng(num).replace(" ", "")
         return [(char, 1) for char in num_str]
     
     split_str_as_rdd = general_map(map_to_str, split_str)
