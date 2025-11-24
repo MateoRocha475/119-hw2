@@ -217,17 +217,14 @@ Your answer should use the general_map and general_reduce functions as much as p
 def q6(rdd):
     # Input: the RDD from Q4
     # Output: a tuple (most common digit, most common frequency, least common digit, least common frequency)
-    map_to_str = rdd.map(lambda x: ("digits", str(x)))
+    def split_str(key, num):
+        return [(digit, 1) for digit in str(num)]
 
-    def split_str(key, num_str):
-        return [(digit, 1) for digit in num_str]
+    map_to_str = rdd.map(lambda x: (None, x))
 
     split_str_as_rdd = general_map(map_to_str, split_str)
-
-    def add_count(count1, count2):
-        return count1 + count2
     
-    get_count_of_digits = general_reduce(split_str_as_rdd, add_count)
+    get_count_of_digits = general_reduce(split_str_as_rdd, lambda count1, count2: count1 + count2)
     get_digit_frequency = get_count_of_digits.collect()
     most_common = max(get_digit_frequency, key=lambda x: x[1])
     least_common = min(get_digit_frequency, key=lambda x: x[1])
