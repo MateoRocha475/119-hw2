@@ -58,7 +58,51 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     - load_input_bigger (including q8_a and q8_b) should use an input of size N.
     - both of these should return an RDD with level of parallelism P (number of partitions = P).
     """
-    raise NotImplementedError
+    file = "output/part1-answers.txt"
+    open(file, 'w').close()
+
+    try:
+        dfs = load_input(N=N, P=P)
+    except NotImplementedError:
+        print("Welcome to Part 1! Implement load_input() to get started.")
+        dfs = sc.parallelize([])
+
+    # Questions 1-3
+    log_answer("q1", q1)
+    log_answer("q2", q2)
+    # 3: commentary
+
+    # Questions 4-10
+    log_answer("q4", q4, dfs)
+    log_answer("q5", q5, dfs)
+    log_answer("q6", q6, dfs)
+    log_answer("q7", q7, dfs)
+    log_answer("q8a", q8_a, N, P)
+    log_answer("q8b", q8_b, N, P)
+    # 9: commentary
+    # 10: commentary
+
+    # Questions 11-18
+    log_answer("q11", q11, dfs)
+    # 12: commentary
+    # 13: commentary
+    log_answer("q14", q14, dfs)
+    # 15: commentary
+    log_answer("q16a", q16_a)
+    log_answer("q16b", q16_b)
+    log_answer("q16c", q16_c)
+    # 17: commentary
+    # 18: commentary
+
+    # Questions 19-20
+    # 19: commentary
+    log_answer("q20", q20)
+
+    # Answer: return the number of questions that are not implemented
+    if UNFINISHED > 0:
+        print("Warning: there are unfinished questions.")
+
+    return f"{UNFINISHED} unfinished questions"
 
 """
 === Coding part 2: measuring the throughput and latency ===
