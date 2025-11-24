@@ -319,7 +319,7 @@ def convert_to_eng(number):
             final_result.append(below_thousands(millions_place))
             final_result.append("million")
 
-        thousands_place = number // 1000
+        thousands_place = remainder // 1000
         remainder = number % 1000
 
 
@@ -573,6 +573,7 @@ def q20():
     def single_item(a, b):
         return a        
     get_reduce = general_reduce(get_map, single_item)
+    collection = get_reduce.collect()
     return False
 
 """
