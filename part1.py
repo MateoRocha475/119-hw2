@@ -382,8 +382,17 @@ Notes:
   helped speed it up.
 """
 
-def load_input_bigger():
-    return sc.range(10000000, numSlices=200)
+def load_input_bigger(N = None, P = None):
+    original_N = 10000000
+    original_P = 200
+
+    if N is None:
+        N = original_N
+
+    if P is None:
+        P = original_P
+        
+    return sc.range(N, P)
 
 def q8_a():
     # version of Q6
