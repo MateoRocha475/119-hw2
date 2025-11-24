@@ -451,7 +451,7 @@ is different depending on the order of the input?
 The general_reduce function uses reducebykey, which means that if two things have the same key, they may have the function applied to them in a random order. For example
 if i have three things with the same key (k1, v1) (k1, v2) and (k1, v3). If the function on the tuples from map is subtraction or division the values then 
 reducebykey can mix up the order where if we want (v1 - v2) then - v3, we could have (v3 - v1) - v2. So if v1 = 5, v2 = 4, and v3 = 2 we could have 
-either -1 or -7 for the index.
+either -1 or -7 for the index. This would happen if we partition or repartition the data and split it up.
 === END OF Q13 ANSWER ===
 
 14.
