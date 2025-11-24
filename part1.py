@@ -337,7 +337,7 @@ def q7(rdd):
         return [(char, 1) for char in num_str]
     
     split_str_as_rdd = general_map(map_to_str, split_str)
-    
+
     def get_count(count1, count2):
         return count1 + count2
     
@@ -392,14 +392,15 @@ Discussion questions
 9. State what types you used for k1, v1, k2, and v2 for your Q6 and Q7 pipelines.
 
 === ANSWER Q9 BELOW ===
-
+For question 6 I have k1: None (empty key), v1: integer, k2: str, v2: int. For question 7 k1: None, v1: str, and k2: str, v2: int.
 === END OF Q9 ANSWER ===
 
 10. Do you think it would be possible to compute the above using only the
 "simplified" MapReduce we saw in class? Why or why not?
 
 === ANSWER Q10 BELOW ===
-
+Most likely not for the sole reason that the simplified map reduce we saw in class usually took in just one k1 value and one k2 value instead of tuples. In addition,
+trying to calculate sums in the way fo the simplified mapreduce wouldn't specify which object we are adding the sum of.
 === END OF Q10 ANSWER ===
 """
 
