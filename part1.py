@@ -30,8 +30,15 @@ If you aren't sure of the type of the output, please post a question on Piazza.
 # Spark boilerplate (remember to always add this at the top of any Spark file)
 import pyspark
 from pyspark.sql import SparkSession
-spark = SparkSession.builder.appName("DataflowGraphExample").getOrCreate()
-sc = spark.sparkContext
+try:
+    # This should run on the driver (python3 part1.py, pytest, python3 part3.py)
+    spark = SparkSession.builder.appName("DataflowGraphExample").getOrCreate()
+    sc = spark.sparkContext
+except PySparkRuntimeError:
+    # This path happens on workers when they import part1.
+    # We don’t want to create a SparkContext here.
+    spark = None
+    sc = None
 
 # Additional imports
 import pytest
