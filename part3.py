@@ -65,10 +65,10 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     open(file, 'w').close()
 
     try:
-        dfs = load_input(N=N, P=P)
+        dfs = part1.load_input(N=N, P=P)
     except NotImplementedError:
         print("Welcome to Part 1! Implement load_input() to get started.")
-        dfs = sc.parallelize([])
+        dfs = part1.sc.parallelize([])
 
     # Questions 1-3
     part1.log_answer("q1", part1.q1)
