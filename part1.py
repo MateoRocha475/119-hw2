@@ -288,7 +288,9 @@ Notes:
 
 # *** Define helper function(s) here ***
 
-def convert_to_eng(number):
+
+def q7(rdd):
+    def convert_to_eng(number):
         final_result = []
 
         if number == 0:
@@ -350,8 +352,6 @@ def convert_to_eng(number):
             final_result.append(below_thousands(remainder))
 
         return " ".join(final_result)
-
-def q7(rdd):
     # Input: the RDD from Q4
     # Output: a tulpe (most common char, most common frequency, least common char, least common frequency)
     map_to_str = rdd.map(lambda x: ("", x))
