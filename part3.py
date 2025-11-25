@@ -60,6 +60,7 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     - load_input_bigger (including q8_a and q8_b) should use an input of size N.
     - both of these should return an RDD with level of parallelism P (number of partitions = P).
     """
+    import part1
     file = "part1-answers-temp.txt"
     open(file, 'w').close()
 
@@ -108,8 +109,7 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
 
 def make_pipeline(N, P):
     def run_pipeline():
-        import part1
-        part1.PART_1_PIPELINE_PARAMETRIC(N=N, P=P)
+        PART_1_PIPELINE_PARAMETRIC(N=N, P=P)
     return run_pipeline
 
 """
