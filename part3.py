@@ -160,6 +160,79 @@ That is why we are assuming the latency will just be the running time of the ent
 
 # Copy in ThroughputHelper and LatencyHelper
 
+NUM_RUNS = 10
+
+import matplotlib.pyplot as plt
+
+import time
+
+class ThroughputHelper:
+    def __init__(self):
+        # Initialize the object.
+        # Pipelines: a list of functions, where each function
+        # can be run on no arguments.
+        # (like: def f(): ... )
+        self.pipelines = []
+
+        # Pipeline names
+        # A list of names for each pipeline
+        self.names = []
+
+        # Pipeline input sizes
+        self.sizes = []
+
+        # Pipeline throughputs
+        # This is set to None, but will be set to a list after throughputs
+        # are calculated.
+        self.throughputs = None
+
+    def add_pipeline(self, name, size, func):
+        self.names.append(name)
+        self.sizes.append(size)
+        self.pipelines.append(func)
+
+    def compare_throughput(self):
+        # Measure the throughput of all pipelines
+        # and store it in a list in self.throughputs.
+        # Make sure to use the NUM_RUNS variable.
+        # Also, return the resulting list of throughputs,
+        # in **number of items per second.**
+        self.throughputs = []
+
+        for func, size in zip(self.pipelines, self.sizes):
+            total_time = 0  # keep time
+            for _ in range(NUM_RUNS):
+                start = time.perf_counter() # start time
+                func() # run function
+                end = time.perf_counter() # end time
+                total_time += (end - start)
+
+            avg_time = total_time/ NUM_RUNS  # Calculate average throughput
+            if avg_time < 0:
+                throughput = float("inf") 
+            else:
+                throughput = size / avg_time 
+            self.throughputs.append(throughput)
+
+        return self.throughputs 
+
+    def generate_plot(self, filename):
+        # Generate a plot for throughput using matplotlib.
+        # You can use any plot you like, but a bar chart probably makes
+        # the most sense.
+        # Make sure you include a legend.
+        # Save the result in the filename provided.
+        plt.figure(figsize=(8, 5))  # figure size 
+        plt.bar(self.names, self.throughputs) # bar plot
+
+        plt.xlabel("Pipeline")
+        plt.ylabel("Throughput (items/second)")
+        plt.title("Throughput Comparison")
+        plt.tight_layout()
+
+        plt.savefig(filename)
+        plt.close()
+
 # Insert code to generate plots here as needed
 
 """
