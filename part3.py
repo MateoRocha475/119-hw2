@@ -58,7 +58,7 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     - load_input_bigger (including q8_a and q8_b) should use an input of size N.
     - both of these should return an RDD with level of parallelism P (number of partitions = P).
     """
-    file = "output/part1-answers.txt"
+    file = "part1-answers-temp.txt"
     open(file, 'w').close()
 
     try:
@@ -77,8 +77,8 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     log_answer("q5", q5, dfs)
     log_answer("q6", q6, dfs)
     log_answer("q7", q7, dfs)
-    log_answer("q8a", q8_a, N, P)
-    log_answer("q8b", q8_b, N, P)
+    log_answer("q8a", lambda: q8_a(N =N, P=P))
+    log_answer("q8b", lambda: q8_b(N=N, P=P))
     # 9: commentary
     # 10: commentary
 

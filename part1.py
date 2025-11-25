@@ -392,7 +392,7 @@ def load_input_bigger(N = None, P = None):
     if P is None:
         P = original_P
 
-    return sc.range(N, P)
+    return sc.range(N, numSlices=P)
 
 def q8_a(N = None, P = None):
     # version of Q6
