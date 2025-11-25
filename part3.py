@@ -61,6 +61,12 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     - both of these should return an RDD with level of parallelism P (number of partitions = P).
     """
     import part1
+    from pyspark.sql import SparkSession
+
+    spark = SparkSession.builder.appName("DataflowGraphExample").getOrCreate()
+    sc = spark.sparkContext
+    part1.sc = sc
+    
     file = "part1-answers-temp.txt"
     open(file, 'w').close()
 
