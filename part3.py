@@ -158,23 +158,6 @@ That is why we are assuming the latency will just be the running time of the ent
 - Please set `NUM_RUNS` to `1` if you haven't already. Note that this will make the values for low numbers (like `N=1`, `N=10`, and `N=100`) vary quite unpredictably.
 """
 
-PARALLELISMS = [1, 2, 4, 8, 16]
-
-INPUT_SIZES = [1, 10, 100, 1000, 10_000, 100_000, 1_000_000]
-
-
-def make_pipeline(N, P):
-    """
-    Wrap PART1_PIPELINE_PARAMETRIC so it becomes a 0-argument function.
-    This is required by the ThroughputHelper and LatencyHelper.
-    """
-    def run_pipeline():
-        PART_1_PIPELINE_PARAMETRIC(N=N, P=P)
-    return run_pipeline
-
-
-
-
 # Copy in ThroughputHelper and LatencyHelper
 
 NUM_RUNS = 1
@@ -306,7 +289,41 @@ class LatencyHelper:
         plt.savefig(filename)
         plt.close()
 
-# Insert code to generate plots here as needed
+PARALLELISMS = [1, 2, 4, 8, 16]
+
+INPUT_SIZES = [1, 10, 100, 1000, 10_000, 100_000, 1_000_000]
+
+
+def make_pipeline(N, P):
+    """
+    Wrap PART1_PIPELINE_PARAMETRIC so it becomes a 0-argument function.
+    This is required by the ThroughputHelper and LatencyHelper.
+    """
+    def run_pipeline():
+        PART_1_PIPELINE_PARAMETRIC(N=N, P=P)
+    return run_pipeline
+
+if __name__ == "__main__":
+    for P in PARALLELISMS:
+        th = ThroughputHelper()
+        for N in INPUT_SIZES:
+            th.add_pipeline(
+                name=f"N={N}",
+                size=2 * N,       
+                func=make_pipeline(N, P)
+            )
+        th.compare_throughput()
+        th.generate_plot(f"output/part3-throughput-{P}.png")
+
+    for P in PARALLELISMS:
+        lh = LatencyHelper()
+        for N in INPUT_SIZES:
+            lh.add_pipeline(
+                name=f"N={N}",
+                func=make_pipeline(N, P)
+            )
+        lh.compare_latency()
+        lh.generate_plot(f"output/part3-latency-{P}.png")
 
 """
 === Reflection part ===
