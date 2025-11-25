@@ -71,41 +71,41 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
         dfs = sc.parallelize([])
 
     # Questions 1-3
-    log_answer("q1", q1)
-    log_answer("q2", q2)
+    part1.log_answer("q1", part1.q1)
+    part1.log_answer("q2", part1.q2)
     # 3: commentary
 
     # Questions 4-10
-    log_answer("q4", q4, dfs)
-    log_answer("q5", q5, dfs)
-    log_answer("q6", q6, dfs)
-    log_answer("q7", q7, dfs)
-    log_answer("q8a", lambda: q8_a(N =N, P=P))
-    log_answer("q8b", lambda: q8_b(N=N, P=P))
+    part1.log_answer("q4", part1.q4, dfs)
+    part1.log_answer("q5", part1.q5, dfs)
+    part1.log_answer("q6", part1.q6, dfs)
+    part1.log_answer("q7", part1.q7, dfs)
+    part1.log_answer("q8a", lambda: part1.q8_a(N =N, P=P))
+    part1.log_answer("q8b", lambda: part1.q8_b(N=N, P=P))
     # 9: commentary
     # 10: commentary
 
     # Questions 11-18
-    log_answer("q11", q11, dfs)
+    part1.log_answer("q11", part1.q11, dfs)
     # 12: commentary
     # 13: commentary
-    log_answer("q14", q14, dfs)
+    part1.log_answer("q14", part1.q14, dfs)
     # 15: commentary
-    log_answer("q16a", q16_a)
-    log_answer("q16b", q16_b)
-    log_answer("q16c", q16_c)
+    part1.log_answer("q16a", part1.q16_a)
+    part1.log_answer("q16b", part1.q16_b)
+    part1.log_answer("q16c", part1.q16_c)
     # 17: commentary
     # 18: commentary
 
     # Questions 19-20
     # 19: commentary
-    log_answer("q20", q20)
+    part1.log_answer("q20", q20)
 
     # Answer: return the number of questions that are not implemented
-    if UNFINISHED > 0:
+    if part1.UNFINISHED > 0:
         print("Warning: there are unfinished questions.")
 
-    return f"{UNFINISHED} unfinished questions"
+    return f"{part1.UNFINISHED} unfinished questions"
 
 def make_pipeline(N, P):
     def run_pipeline():
