@@ -48,13 +48,7 @@ You should not modify the existing PART_1_PIPELINE.
 You may either delete the parts of the code that save the output file, or change these to a different output file like part1-answers-temp.txt.
 """
 
-from part1 import (
-    load_input,
-    load_input_bigger,
-    q1, q2, q4, q5, q6, q7, q8_a, q8_b,
-    q11, q14, q16_a, q16_b, q16_c, q20,
-    log_answer, UNFINISHED
-)
+
 
 def PART_1_PIPELINE_PARAMETRIC(N, P):
     """
@@ -111,6 +105,12 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
         print("Warning: there are unfinished questions.")
 
     return f"{UNFINISHED} unfinished questions"
+
+def make_pipeline(N, P):
+    def run_pipeline():
+        import part1
+        part1.PART_1_PIPELINE_PARAMETRIC(N=N, P=P)
+    return run_pipeline
 
 """
 === Coding part 2: measuring the throughput and latency ===
