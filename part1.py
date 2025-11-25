@@ -25,10 +25,15 @@ You will still need a single .map call at the beginning (to convert the RDD into
 If you aren't sure of the type of the output, please post a question on Piazza.
 """
 
+
+
 # Spark boilerplate (remember to always add this at the top of any Spark file)
 import pyspark
-from pyspark.sql import SparkSession
-spark = SparkSession.builder.appName("DataflowGraphExample").getOrCreate()
+spark = None  # global placeholder
+
+if __name__ == "__main__":
+    from pyspark.sql import SparkSession
+    spark = SparkSession.builder.appName("DataflowGraphExample").getOrCreate()
 sc = spark.sparkContext
 
 # Additional imports
