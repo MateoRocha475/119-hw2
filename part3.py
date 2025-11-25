@@ -48,6 +48,14 @@ You should not modify the existing PART_1_PIPELINE.
 You may either delete the parts of the code that save the output file, or change these to a different output file like part1-answers-temp.txt.
 """
 
+from part1 import (
+    load_input,
+    load_input_bigger,
+    q1, q2, q4, q5, q6, q7, q8_a, q8_b,
+    q11, q14, q16_a, q16_b, q16_c, q20,
+    log_answer, UNFINISHED
+)
+
 def PART_1_PIPELINE_PARAMETRIC(N, P):
     """
     TODO: Follow the same logic as PART_1_PIPELINE
