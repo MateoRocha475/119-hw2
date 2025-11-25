@@ -103,9 +103,6 @@ def PART_1_PIPELINE_PARAMETRIC(N, P):
     # 17: commentary
     # 18: commentary
 
-    # Questions 19-20
-    # 19: commentary
-    part1.log_answer("q20", q20)
 
     # Answer: return the number of questions that are not implemented
     if part1.UNFINISHED > 0:
