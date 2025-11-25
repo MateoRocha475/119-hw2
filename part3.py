@@ -158,9 +158,26 @@ That is why we are assuming the latency will just be the running time of the ent
 - Please set `NUM_RUNS` to `1` if you haven't already. Note that this will make the values for low numbers (like `N=1`, `N=10`, and `N=100`) vary quite unpredictably.
 """
 
+PARALLELISMS = [1, 2, 4, 8, 16]
+
+INPUT_SIZES = [1, 10, 100, 1000, 10_000, 100_000, 1_000_000]
+
+
+def make_pipeline(N, P):
+    """
+    Wrap PART1_PIPELINE_PARAMETRIC so it becomes a 0-argument function.
+    This is required by the ThroughputHelper and LatencyHelper.
+    """
+    def run_pipeline():
+        PART_1_PIPELINE_PARAMETRIC(N=N, P=P)
+    return run_pipeline
+
+
+
+
 # Copy in ThroughputHelper and LatencyHelper
 
-NUM_RUNS = 10
+NUM_RUNS = 1
 
 import matplotlib.pyplot as plt
 
@@ -228,6 +245,62 @@ class ThroughputHelper:
         plt.xlabel("Pipeline")
         plt.ylabel("Throughput (items/second)")
         plt.title("Throughput Comparison")
+        plt.tight_layout()
+
+        plt.savefig(filename)
+        plt.close()
+
+class LatencyHelper:
+    def __init__(self):
+        # Initialize the object.
+        # Pipelines: a list of functions, where each function
+        # can be run on no arguments.
+        # (like: def f(): ... )
+        self.pipelines = []
+
+        # Pipeline names
+        # A list of names for each pipeline
+        self.names = []
+
+        # Pipeline latencies
+        # This is set to None, but will be set to a list after latencies
+        # are calculated.
+        self.latencies = None
+
+    def add_pipeline(self, name, func):
+        self.names.append(name)
+        self.pipelines.append(func)
+
+    def compare_latency(self):
+        # Measure the latency of all pipelines
+        # and store it in a list in self.latencies.
+        # Also, return the resulting list of latencies,
+        # in **milliseconds.**
+        self.latencies = []
+        for func in self.pipelines:
+            total_time = 0 # total time
+            for _ in range(NUM_RUNS):
+                start_time = time.perf_counter() # start time
+                func() # call function
+                end_time = time.perf_counter() # end time
+                total_time += (end_time - start_time)
+            avg_latency = (total_time / NUM_RUNS) * 1000 # calculate average latency
+            self.latencies.append(avg_latency)
+
+        return self.latencies
+
+    def generate_plot(self, filename):
+        # Generate a plot for latency using matplotlib.
+        # You can use any plot you like, but a bar chart probably makes
+        # the most sense.
+        # Make sure you include a legend.
+        # Save the result in the filename provided.
+        plt.figure(figsize=(8, 5))
+        plt.bar(self.names, self.latencies) # Bar Plot
+
+        plt.xlabel("Pipeline")
+        plt.ylabel("Latency (milliseconds)")
+        plt.title("Latency Comparison")
         plt.tight_layout()
 
         plt.savefig(filename)
