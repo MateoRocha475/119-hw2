@@ -13,4 +13,12 @@ Based on the observed this is mostly true, but again with input sizes of 10,000 
 same reains true for higher P values, except P = 2 which acutally only has a latency of around a minute. This is most likely
 due to spark making partitions and keeping track of them.
 
-3)
+3) I conjecture that the theoretical model does not accurately represent the actual runtime of the application at different input
+sizes. Mainly, the theoretical model suggests throuput being doubled linarly for different input sizes. However, this does not 
+hold true for our observed latency when testing inputs higher that 10,000 items. Similarly, latency should remain mostly constant,
+but it reaches a large spike it time when having input sizes over 1,000,000 items. This is mostly due to real world issues with
+spark as well as system restrictions. For example, for larger P values, specifically 16. The throughput and latency are noticably
+worse than from smaller P values of 2 and 4. This feels strictly due to spark and how creating too many partitions and keeping track
+of what is in them on one machine can cause more harm than good. In terms of system restrictions, when running part 8_b specifically,
+running that part with more that 10,000 inputs ends up using 100% of the CPU power in the codespace and therefore explains why
+throughput and latency are off from the expected outcomes.
