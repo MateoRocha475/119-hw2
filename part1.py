@@ -187,7 +187,7 @@ def load_input(N = None, P = None):
     if N is None:
         N = original_N
     
-    input = list(range(N))
+    input = list(range(1, 1 + N))
 
     if P is None:
         return sc.parallelize(input, original_P)
